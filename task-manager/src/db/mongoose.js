@@ -6,12 +6,33 @@ mongoose.connect('mongodb://127.0.0.1:27017/task-manager-api', {
   useCreateIndex: true
 })
 
+
+//
+// Goal: Add a password field to User
+//
+// 1. Setup the files as a require string
+// 2.Ensure the length is greater than 6
+// 3. Trim the password
+// 4. Ensure that password doesn't contain "password"
+// 5. Test your work!
+
 //Defining a model
 const User = mongoose.model('User', {
   name: {
     type: String,
     required: true,
     trim: true
+  },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    minlength: 6,
+    validate (value) {
+      if (value.includes('password')) {
+        throw new Error('Password may not contain the word password')
+      }
+    }
   },
   email: {
     type: String,
@@ -38,7 +59,8 @@ const User = mongoose.model('User', {
 // Creating an instance
 const me = new User({
   name: '   Juergen ',
-  email: '  INFO@stodolka-juergen.de'
+  email: '  INFO@stodolka-juergen.de',
+  password: '   _oedeldoedel@99  '
 })
 
 // Save the instanct to the database
