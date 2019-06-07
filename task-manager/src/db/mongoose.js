@@ -29,7 +29,7 @@ const User = mongoose.model('User', {
     trim: true,
     minlength: 6,
     validate (value) {
-      if (value.includes('password')) {
+      if (value.includes('Password')) {
         throw new Error('Password may not contain the word password')
       }
     }
@@ -57,18 +57,18 @@ const User = mongoose.model('User', {
 })
 
 // Creating an instance
-const me = new User({
-  name: '   Juergen ',
-  email: '  INFO@stodolka-juergen.de',
-  password: '   _oedeldoedel@99  '
-})
+// const me = new User({
+//   name: '   Juergen ',
+//   email: '  INFO@stodolka-juergen.de',
+//   password: 'phone098!'
+// })
 
-// Save the instanct to the database
-me.save().then(() => {
-  console.log(me)
-}).catch((error) => {
-  console.log('Error!', error)
-})
+// // Save the instanct to the database
+// me.save().then(() => {
+//   console.log(me)
+// }).catch((error) => {
+//   console.log('Error!', error)
+// })
 
 // -------------------------------------------------------------------
 // Goal: Create a model for tasks
@@ -79,22 +79,31 @@ me.save().then(() => {
 // 4. Test yout work!
 // -------------------------------------------------------------------
 
-// const Task = mongoose.model('Task', {
-//   description: {
-//     type: String
-//   },
-//   completed: {
-//     type: Boolean
-//   }
-// })
+// Next goal: Add validation and sanitization to task
+//
+// 1. Trim the description and make it require
+// 2. Make completed optional and default it to false
+// 3. Test your work with and without errors
 
-// const my_task = new Task({
-//   description: 'Clean the kitchen',
-//   completed: false
-// })
+const Task = mongoose.model('Task', {
+  description: {
+    type: String,
+    trim: true,
+    required: true,
+  },
+  completed: {
+    type: Boolean,
+    default: false,
+  }
+})
 
-// my_task.save().then(() => {
-//   console.log(my_task)
-// }).catch((error) => {
-//   console.log('Error!', error)
-// })
+const my_task = new Task({
+  description: 'Learn one chapter Node.js',
+  completed: true
+})
+
+my_task.save().then(() => {
+  console.log(my_task)
+}).catch((error) => {
+  console.log('Error!', error)
+})
